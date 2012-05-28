@@ -1,99 +1,50 @@
-<!DOCTYPE html>
+<!--
+ * PhoneGap is available under *either* the terms of the modified BSD license *or* the
+ * MIT License (2008). See http://opensource.org/licenses/alphabetical for full text.
+ *
+ * Copyright (c) 2011, IBM Corporation
+ *
+-->
+
 <html>
-  <head>
-  <title></title>
-  
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
-    <meta charset="utf-8">
 
-    <!-- iPad/iPhone specific css below, add after your main css >
-    <link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />		
-    <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />		
-    -->
-
-
-    <!-- If your application is targeting iOS BEFORE 4.0 you MUST put json2.js from http://www.JSON.org/json2.js into your www directory and include it here -->
-    <script type="text/javascript" charset="utf-8" src="cordova-1.5.0.js"></script>
-    <script type="text/javascript" charset="utf-8" src="barcodescanner.js"></script>
-
-    <script type="text/javascript">
-
-
-	// If you want to prevent dragging, uncomment this section
-	/*
-	function preventBehavior(e) 
-	{ 
-      e.preventDefault(); 
-    };
-	document.addEventListener("touchmove", preventBehavior, false);
-	*/
-	
-	/* If you are supporting your own protocol, the var invokeString will contain any arguments to the app launch.
-	see http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
-	for more details -jm */
-	/*
-	function handleOpenURL(url)
-	{
-		// TODO: do something with the url passed in.
-	}
-	*/
-	
-	function onBodyLoad()
-	{		
-		document.addEventListener("deviceready", onDeviceReady, false);
-
-    scanButton = document.getElementById("scan-button");
-    resultSpan = document.getElementById("scan-result");
-
-	}
-	
-
-	/* When this function is called, PhoneGap has been initialized and is ready to roll */
-	/* If you are supporting your own protocol, the var invokeString will contain any arguments to the app launch.
-	see http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
-	for more details -jm */
-	function onDeviceReady()
-	{
-		// do your thing!
-		navigator.notification.alert("PhoneGap is working");
-
-    scanButton.addEventListener("click", clickScan, false);
-    createButton.addEventListener("click", clickCreate, false);
-
-	}
-
-
-function clickScan() {
-    window.plugins.barcodeScanner.scan(scannerSuccess, scannerFailure);
+<head>
+<title>PhoneGap BarcodeScanner device test app</title>
+<script src="cordova-1.5.0.js"></script>
+<script src="barcodescanner.js"></script>
+<script src="image-data.json.js"></script>
+<script src="phonegap-app.js"></script>
+<style>
+button {
+    font-size: 120%;
 }
+</style>
+</head>
 
+<body onload="onLoad()">
 
-//------------------------------------------------------------------------------
-function scannerSuccess(result) {
-    console.log("scannerSuccess: result: " + result)
-    resultSpan.innerText = "success: " + JSON.stringify(result)
-}
+<div id="running-bits">
 
-//------------------------------------------------------------------------------
-function scannerFailure(message) {
-    console.log("scannerFailure: message: " + message)
-    resultSpan.innerText = "failure: " + JSON.stringify(message)
-}
+<button id="scan-button">scan: ?</button>
 
+<p>(<span id="test-count-current">?</span>
+/
+<span id="test-count-total">?</span>)
 
-    
-    </script>
-  </head>
-  <body onload="onBodyLoad()">
+<p><img id="image" src="">
 
+<p>expected text:
+<br><tt><span id="test-text">?</span></tt>
 
-    <button id="scan-button">scan something</button>
+</div>
 
-    <p>scanned: <span id="scan-result">n/a</span>
+<p><b id="test-done"></b>
+<br><button id="start-over">start over</button>
 
+<p>Results:
+<ul id="results-list">
+</ul>
 
+</body>
 
-
-  </body>
 </html>
-
